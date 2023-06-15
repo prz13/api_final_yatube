@@ -46,8 +46,7 @@ class FollowSerializer(serializers.ModelSerializer):
 
         existing_follow = Follow.objects.filter(
             user=follower_user,
-            following=followed_user
-            ).exists()
+            following=followed_user).exists()
 
         if existing_follow:
             raise serializers.ValidationError(
