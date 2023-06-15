@@ -1,24 +1,26 @@
 from django.shortcuts import get_object_or_404
-from posts.models import Group, Post, Comment
-from django.contrib.auth import get_user_model
+from posts.models import Group, Post, Comment, User
 from rest_framework import viewsets, permissions, filters, status
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.response import Response
 
 from .permissions import IsAuthorOrReadOnly
-from .serializers import (CommentSerializer, 
-                         GroupSerializer,
-                         PostSerializer, 
-                         FollowSerializer)
+from .serializers import (CommentSerializer,
+                            GroupSerializer,
+                            PostSerializer,
+                            FollowSerializer)
+
 
 class GroupViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     permission_classes = [permissions.IsAuthenticated, IsAuthorOrReadOnly]
 
+
 class PostViewSet(viewsets.ModelViewSet):
     serializer_class = PostSerializer
     queryset = Post.objects.all()
+    pagination_class = LimitOffsetPagination
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def create(self, request, *args, **kwargs):
@@ -29,7 +31,10 @@ class PostViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save(author=request.user)
         headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        return Response(serializer.data, 
+                        status=status.HTTP_201_CREATED, 
+                        headers=headers)
+
 
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
@@ -45,6 +50,7 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     def get_post(self):
         return get_object_or_404(Post, pk=self.kwargs.get('post_id'))
+
 
 class FollowViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post']
