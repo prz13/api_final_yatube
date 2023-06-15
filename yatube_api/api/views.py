@@ -6,9 +6,9 @@ from rest_framework.response import Response
 
 from .permissions import IsAuthorOrReadOnly
 from .serializers import (CommentSerializer,
-                            GroupSerializer,
-                            PostSerializer,
-                            FollowSerializer)
+                          GroupSerializer,
+                          PostSerializer,
+                          FollowSerializer)
 
 
 class GroupViewSet(viewsets.ReadOnlyModelViewSet):
@@ -31,8 +31,8 @@ class PostViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save(author=request.user)
         headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, 
-                        status=status.HTTP_201_CREATED, 
+        return Response(serializer.data,
+                        status=status.HTTP_201_CREATED,
                         headers=headers)
 
 
