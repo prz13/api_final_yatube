@@ -25,8 +25,8 @@ class Post(models.Model):
     image = models.ImageField(
         upload_to='posts/', null=True, blank=True)
     group = models.ForeignKey(
-        Group, on_delete=models.CASCADE, related_name='posts', null=True, blank=True)
-
+        Group, on_delete=models.CASCADE,
+        related_name='posts', null=True, blank=True)
 
     def __str__(self):
         return self.text
