@@ -7,6 +7,7 @@ User = get_user_model()
 
 
 class Group(models.Model):
+    id = models.BigAutoField(primary_key=True)
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)
     description = models.TextField()
@@ -16,6 +17,7 @@ class Group(models.Model):
 
 
 class Post(models.Model):
+    id = models.BigAutoField(primary_key=True)
     text = models.TextField()
     pub_date = models.DateTimeField('Дата публикации', auto_now_add=True)
     author = models.ForeignKey(
@@ -30,8 +32,8 @@ class Post(models.Model):
         return self.text
 
 
-
 class Comment(models.Model):
+    id = models.BigAutoField(primary_key=True)
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name='comments')
     post = models.ForeignKey(
@@ -41,8 +43,8 @@ class Comment(models.Model):
         'Дата добавления', auto_now_add=True, db_index=True)
 
 
-
 class Follow(models.Model):
+    id = models.BigAutoField(primary_key=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE,
                              related_name='follower')
