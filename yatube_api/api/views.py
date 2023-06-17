@@ -24,7 +24,8 @@ class PostViewSet(viewsets.ModelViewSet):
 class GroupViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-    '''permission_classes = [permissions.IsAuthenticated, IsAuthorOrReadOnly]'''
+    '''permission_classes = 
+       [permissions.IsAuthenticated, IsAuthorOrReadOnly]'''
 
 
 class CommentViewSet(viewsets.ModelViewSet):
