@@ -26,4 +26,5 @@ urlpatterns = [
     path('v1/posts/<int:post_id>/comments/', include(comment_router.urls)),
     path('v1/follow/', include(follow_router.urls)),
     path('v1/api-token-auth/', views.obtain_auth_token, name='url_api_token'),
+    path('v1/', include('djoser.urls.jwt')),
 ]
