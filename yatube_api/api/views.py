@@ -32,7 +32,7 @@ class GroupViewSet(viewsets.ReadOnlyModelViewSet):
 
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
-    permission_classes = [permissions.IsAuthenticated, IsAuthorOrReadOnly]
+    permission_classes = [IsAuthorOrReadOnly]
     
     def get_post(self):
         return get_object_or_404(Post, pk=self.kwargs.get('post_id'))
@@ -44,12 +44,12 @@ class CommentViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         post = self.get_post()
         serializer.save(author=self.request.user, post=post)
-
+        
 
 class FollowViewSet(viewsets.ModelViewSet):
     http_method_names = ['get', 'post']
-    serializer_class = FollowSerializer
     permission_classes = [permissions.IsAuthenticated]
+    serializer_class = FollowSerializer
     filter_backends = [filters.SearchFilter]
     search_fields = ['user__username', 'following__username']
 
@@ -59,4 +59,3 @@ class FollowViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
