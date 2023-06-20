@@ -20,6 +20,7 @@ group_router.register('', GroupViewSet, basename='group')
 follow_router = DefaultRouter()
 follow_router.register('', FollowViewSet, basename='follow')
 
+# Объединение URL-шаблонов в список
 urlpatterns = [
     path('v1/posts/', include(post_router.urls)),
     path('v1/groups/', include(group_router.urls)),
