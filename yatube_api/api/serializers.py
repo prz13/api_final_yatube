@@ -5,7 +5,9 @@ from posts.models import Comment, Post, Group, Follow, User
 
 
 class PostSerializer(serializers.ModelSerializer):
-    author = serializers.SlugRelatedField(slug_field='username', read_only=True)
+    author = serializers.SlugRelatedField(
+        slug_field='username', read_only=True
+    )
 
     class Meta:
         fields = '__all__'
@@ -59,4 +61,3 @@ class FollowSerializer(serializers.ModelSerializer):
                 'Вы уже подписаны на данного пользователя.')
 
         return data
-    
